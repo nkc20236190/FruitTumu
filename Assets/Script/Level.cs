@@ -5,6 +5,8 @@ using System.Linq;
 
 public class Level : MonoBehaviour
 {
+    // <summary>全フルーツ</summary>
+    private List<Fruit> _AllFruits = new List<Fruit>();
     /// <summary>選択中のフルーツ</summary>
     private List<Fruit> _SelcetFruits = new List<Fruit>();
     /// <summary>選択中のフルーツID</summary>
@@ -18,11 +20,25 @@ public class Level : MonoBehaviour
 
     /// <summary>選択線描画オブジェクト</summary>
     public LineRenderer LineRenderer;
+
+    /// <summary>ボムPrefab</summary>
+    public GameObject BomPrefab;
+
+    /// <summary>全部ボムPrefab</summary>
+    public GameObject AllBomPrefab;
     
     /// <summary>フルーツを消すために必要な数</summary>
     public int FruitDestroyCount = 3;
     /// <summary>フルーツをつなぐ範囲</summary>
     public float FruitConnectRange = 1.5f;
+    /// <summary>ボムを生成するために必要なフルーツの数</summary>
+    public int BomSpawnCount = 5;
+    /// <summary>ボムで消す範囲</summary>
+    public float BomDestroyRange = 1.5f;
+    /// <summary>全部ボムを生成するために必要なフルーツの数</summary>
+    public int AllBomSpawnCount = 4;
+    /// <summary>全部ボムで消す範囲</summary>
+    public float AllBomDestroyRange = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +82,8 @@ public class Level : MonoBehaviour
         for(int i = 0; i < count; i++)
         {
             var Position = new Vector3(StartX + X, StartY + Y, 0);
-            Instantiate(FruitPrefabs[Random.Range(0, FruitPrefabs.Length)],Position,Quaternion.identity);
+            var FruitObject = Instantiate(FruitPrefabs[Random.Range(0, FruitPrefabs.Length)],Position,Quaternion.identity);
+            _AllFruits.Add(FruitObject.GetComponent<Fruit>());
 
             X++;
             if(X == MaxX)
@@ -125,6 +142,8 @@ public class Level : MonoBehaviour
         if (_SelcetFruits.Count >= FruitDestroyCount)
         {
             DestroyFruits(_SelcetFruits);
+            if(_SelcetFruits.Count >= BomSpawnCount)
+                Instantiate(BomPrefab, _SelcetFruits[_SelcetFruits.Count -1].transform.position, Quaternion.identity);
         }
         else
         {
@@ -137,6 +156,25 @@ public class Level : MonoBehaviour
     }
 
     /// <summary>
+    /// ボムを押した
+    /// </summary>
+    /// <param name="bom">ボム</param>
+    public void BomDown(Bom bom)
+    {
+        var RemoveFruits = new List<Fruit>();
+
+        foreach(var FruitItem in _AllFruits)
+        {
+            var Lenght = (FruitItem.transform.position - bom.transform.position).magnitude;
+            if (Lenght < FruitConnectRange)
+                RemoveFruits.Add(FruitItem);
+        }
+
+        DestroyFruits(RemoveFruits);
+        Destroy(bom.gameObject);
+    }
+
+    /// <summary>
     /// フルーツを消す
     /// </summary>
     /// <param name="fruits">消すフルーツ</param>
@@ -145,6 +183,7 @@ public class Level : MonoBehaviour
         foreach(var FruitItem in fruits)
         {
             Destroy(FruitItem.gameObject);
+            _AllFruits.Remove(FruitItem);
         }
 
         FruitSpawn(fruits.Count);

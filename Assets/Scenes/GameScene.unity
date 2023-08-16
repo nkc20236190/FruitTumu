@@ -1272,8 +1272,14 @@ MonoBehaviour:
   - {fileID: 7278183205039822521, guid: 617b9868159710241b5e90100042861b, type: 3}
   - {fileID: 8590471607575754976, guid: 0e6208b4710e3df4cba8287e50bf0986, type: 3}
   LineRenderer: {fileID: 869606471}
+  BomPrefab: {fileID: 1642289001349063036, guid: f126de24739bd5b41a3e4c0e1362cb15, type: 3}
+  AllBomPrefab: {fileID: 0}
   FruitDestroyCount: 3
   FruitConnectRange: 1.5
+  BomSpawnCount: 5
+  BomDestroyRange: 1.5
+  AllBomSpawnCount: 8
+  AllBomDestroyRange: 6
 --- !u!4 &842799197
 Transform:
   m_ObjectHideFlags: 0
