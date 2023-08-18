@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class Level : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Level : MonoBehaviour
     private List<Fruit> _SelcetFruits = new List<Fruit>();
     /// <summary>選択中のフルーツID</summary>
     private string _SelcetID = "";
+
+    /// <summary>スコア</summary>
+    private int _Score = 0;
 
     /// <summary>シングルトンインスタンス</summary>
     public static Level Instance { get; private set; }
@@ -23,6 +27,9 @@ public class Level : MonoBehaviour
 
     /// <summary>ボムPrefab</summary>
     public GameObject BomPrefab;
+
+    /// <summary>スコア表示テキスト</summary>
+    public TextMeshProUGUI ScoreText;
 
     /// <summary>全部ボムPrefab</summary>
     public GameObject AllBomPrefab;
@@ -45,6 +52,7 @@ public class Level : MonoBehaviour
     {
         Instance = this;
         FruitSpawn(50);
+        ScoreText.text = "0";
     }
 
     // Update is called once per frame
@@ -187,5 +195,16 @@ public class Level : MonoBehaviour
         }
 
         FruitSpawn(fruits.Count);
+        AddScore(fruits.Count);
+    }
+
+    /// <summary>
+    /// スコアを追加
+    /// </summary>
+    /// <param name="fruitCount">消したフルーツの数</param>
+    private void AddScore(int fruitCount)
+    {
+        _Score += (int)(fruitCount * 100 * (1 + (fruitCount - 3) * 0.1f));
+        ScoreText.text = _Score.ToString();
     }
 }
