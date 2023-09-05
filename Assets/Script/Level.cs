@@ -15,6 +15,10 @@ public class Level : MonoBehaviour
 
     /// <summary>スコア</summary>
     private int _Score = 0;
+    /// <summary>現在時間[s]</summary>
+    private float _CurrentTime = 60;
+    /// <summary>プレイ中状態</summary>
+    private bool _IsPlaying = true;
 
     /// <summary>シングルトンインスタンス</summary>
     public static Level Instance { get; private set; }
@@ -31,6 +35,11 @@ public class Level : MonoBehaviour
     /// <summary>スコア表示テキスト</summary>
     public TextMeshProUGUI ScoreText;
 
+    /// <summary>時間表示テキスト</summary>
+    public TextMeshProUGUI TimerText;
+    /// <summary>終了画面</summary>
+    public GameObject FinishDialod;
+
     /// <summary>全部ボムPrefab</summary>
     public GameObject AllBomPrefab;
     
@@ -46,6 +55,8 @@ public class Level : MonoBehaviour
     public int AllBomSpawnCount = 4;
     /// <summary>全部ボムで消す範囲</summary>
     public float AllBomDestroyRange = 0.5f;
+    /// <summary>プレイ時間[s]</summary>
+    public float PlayTime = 60;
 
     // Start is called before the first frame update
     void Start()
@@ -53,12 +64,33 @@ public class Level : MonoBehaviour
         Instance = this;
         FruitSpawn(50);
         ScoreText.text = "0";
+        _CurrentTime = PlayTime;
     }
 
     // Update is called once per frame
     void Update()
     {
         LineRendererUpdate();
+        TimerUpdate();
+    }
+
+    /// <summary>
+    /// 時間更新
+    /// </summary>
+    private void TimerUpdate()
+    {
+        if(_IsPlaying)
+        {
+            _CurrentTime -= Time.deltaTime;
+            if(_CurrentTime <= 0)
+            {
+                _CurrentTime = 0;
+                FruitUp();
+                _IsPlaying = false;
+                FinishDialod.SetActive(true);
+            }
+            TimerText.text = ((int) _CurrentTime).ToString();
+        }
     }
 
     /// <summary>
@@ -108,6 +140,7 @@ public class Level : MonoBehaviour
     /// <param name="fruit"></param>
     public void FruitDown(Fruit fruit)
     {
+        if (!_IsPlaying) return;
         _SelcetFruits.Add(fruit);
         fruit.SetSelcet(true);
 
@@ -120,6 +153,7 @@ public class Level : MonoBehaviour
     /// <param name="fruit"></param>
     public void FruitEnter(Fruit fruit)
     {
+        if (!_IsPlaying) return;
         if (_SelcetID != fruit.ID) return;
 
         if (fruit.IsSelcet)
@@ -147,6 +181,7 @@ public class Level : MonoBehaviour
     /// </summary>
     public void FruitUp()
     {
+        if (!_IsPlaying) return;
         if (_SelcetFruits.Count >= FruitDestroyCount)
         {
             DestroyFruits(_SelcetFruits);
@@ -169,6 +204,7 @@ public class Level : MonoBehaviour
     /// <param name="bom">ボム</param>
     public void BomDown(Bom bom)
     {
+        if (!_IsPlaying) return;
         var RemoveFruits = new List<Fruit>();
 
         foreach(var FruitItem in _AllFruits)
