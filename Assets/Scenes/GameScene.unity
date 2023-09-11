@@ -909,7 +909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &377800583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1578,7 +1578,7 @@ MonoBehaviour:
   BomDestroyRange: 1.5
   AllBomSpawnCount: 8
   AllBomDestroyRange: 6
-  PlayTime: 5
+  PlayTime: 61
 --- !u!4 &842799197
 Transform:
   m_ObjectHideFlags: 0
