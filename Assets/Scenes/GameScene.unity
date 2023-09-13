@@ -1572,13 +1572,13 @@ MonoBehaviour:
   ScoreText: {fileID: 62018001}
   TimerText: {fileID: 403977568}
   FinishDialod: {fileID: 377800582}
-  AllBomPrefab: {fileID: 0}
+  AllBomPrefab: {fileID: 4876311152492534007, guid: 9cffc846da9c6bb40ab9465745a22786, type: 3}
   FruitDestroyCount: 3
   FruitConnectRange: 1.5
-  BomSpawnCount: 5
+  BomSpawnCount: 4
   BomDestroyRange: 1.5
-  AllBomSpawnCount: 8
-  AllBomDestroyRange: 6
+  AllBomSpawnCount: 5
+  AllBomDestroyRange: 10
   PlayTime: 61
 --- !u!4 &842799197
 Transform:

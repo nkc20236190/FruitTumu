@@ -48,13 +48,13 @@ public class Level : MonoBehaviour
     /// <summary>フルーツをつなぐ範囲</summary>
     public float FruitConnectRange = 1.5f;
     /// <summary>ボムを生成するために必要なフルーツの数</summary>
-    public int BomSpawnCount = 5;
+    public int BomSpawnCount = 4;
     /// <summary>ボムで消す範囲</summary>
     public float BomDestroyRange = 1.5f;
     /// <summary>全部ボムを生成するために必要なフルーツの数</summary>
-    public int AllBomSpawnCount = 4;
+    public int AllBomSpawnCount = 5;
     /// <summary>全部ボムで消す範囲</summary>
-    public float AllBomDestroyRange = 0.5f;
+    public float AllBomDestroyRange = 10f;
     /// <summary>プレイ時間[s]</summary>
     public float PlayTime = 60;
 
@@ -185,8 +185,14 @@ public class Level : MonoBehaviour
         if (_SelcetFruits.Count >= FruitDestroyCount)
         {
             DestroyFruits(_SelcetFruits);
-            if(_SelcetFruits.Count >= BomSpawnCount)
-                Instantiate(BomPrefab, _SelcetFruits[_SelcetFruits.Count -1].transform.position, Quaternion.identity);
+
+            // ボム生成の条件が満たされた場合にボムを生成する
+            if (_SelcetFruits.Count >= BomSpawnCount && _SelcetFruits.Count < AllBomSpawnCount)
+                Instantiate(BomPrefab, _SelcetFruits[_SelcetFruits.Count - 1].transform.position, Quaternion.identity);
+
+            // ここで全部ボム生成の条件を確認し、満たされた場合に生成する
+            if (_SelcetFruits.Count >= AllBomSpawnCount)
+                Instantiate(AllBomPrefab, _SelcetFruits[_SelcetFruits.Count - 1].transform.position, Quaternion.identity);
         }
         else
         {
@@ -216,6 +222,26 @@ public class Level : MonoBehaviour
 
         DestroyFruits(RemoveFruits);
         Destroy(bom.gameObject);
+    }
+
+    /// <summary>
+    /// 全てボムを押した
+    /// </summary>
+    /// <param name="allbom">全部ボム</param>
+    public void AllBomDown(AllBom allbom)
+    {
+        if (!_IsPlaying) return;
+        var RemoveFruits = new List<Fruit>();
+
+        foreach (var FruitItem in _AllFruits)
+        {
+            var Lenght = (FruitItem.transform.position - allbom.transform.position).magnitude;
+            if (Lenght < FruitConnectRange)
+                RemoveFruits.Add(FruitItem);
+        }
+
+        DestroyFruits(RemoveFruits);
+        Destroy(allbom.gameObject);
     }
 
     /// <summary>
