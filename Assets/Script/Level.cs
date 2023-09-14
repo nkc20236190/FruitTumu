@@ -52,9 +52,11 @@ public class Level : MonoBehaviour
     /// <summary>ボムで消す範囲</summary>
     public float BomDestroyRange = 1.5f;
     /// <summary>全部ボムを生成するために必要なフルーツの数</summary>
-    public int AllBomSpawnCount = 5;
+    public int AllBomSpawnCount = 6;
     /// <summary>全部ボムで消す範囲</summary>
     public float AllBomDestroyRange = 10f;
+    /// <summary>全部ボムで消す範囲</summary>
+    public float AllFruitDestroyRange = 10f;
     /// <summary>プレイ時間[s]</summary>
     public float PlayTime = 60;
 
@@ -225,7 +227,7 @@ public class Level : MonoBehaviour
     }
 
     /// <summary>
-    /// 全てボムを押した
+    /// 全部ボムを押した
     /// </summary>
     /// <param name="allbom">全部ボム</param>
     public void AllBomDown(AllBom allbom)
@@ -236,7 +238,7 @@ public class Level : MonoBehaviour
         foreach (var FruitItem in _AllFruits)
         {
             var Lenght = (FruitItem.transform.position - allbom.transform.position).magnitude;
-            if (Lenght < FruitConnectRange)
+            if (Lenght < AllFruitDestroyRange)
                 RemoveFruits.Add(FruitItem);
         }
 
