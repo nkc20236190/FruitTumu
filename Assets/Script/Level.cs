@@ -15,6 +15,8 @@ public class Level : MonoBehaviour
 
     /// <summary>スコア</summary>
     private int _Score = 0;
+    /// <summary>保存スコア</summary>
+    private int _HighScore = 0;
     /// <summary>現在時間[s]</summary>
     private float _CurrentTime = 60;
     /// <summary>プレイ中状態</summary>
@@ -34,6 +36,9 @@ public class Level : MonoBehaviour
 
     /// <summary>スコア表示テキスト</summary>
     public TextMeshProUGUI ScoreText;
+
+    /// <summary>スコア表示テキスト</summary>
+    public TextMeshProUGUI HighScoreText;
 
     /// <summary>時間表示テキスト</summary>
     public TextMeshProUGUI TimerText;
@@ -116,10 +121,10 @@ public class Level : MonoBehaviour
     private void FruitSpawn(int count)
     {
         var StartX = -2;
-        var StartY = 5;
+        var StartY = 6;
         var X = 0;
         var Y = 0;
-        var MaxX = 6;
+        var MaxX = 5;
 
         for(int i = 0; i < count; i++)
         {
@@ -270,5 +275,15 @@ public class Level : MonoBehaviour
     {
         _Score += (int)(fruitCount * 100 * (1 + (fruitCount - 3) * 0.1f));
         ScoreText.text = _Score.ToString();
+
+        _HighScore += (int)(fruitCount * 100 * (1 + (fruitCount - 3) * 0.1f));
+        HighScoreText.text = _HighScore.ToString();
+
+        // 最高スコアを保存する
+        if (_Score > PlayerPrefs.GetInt("HighScore", 0))
+        {
+            PlayerPrefs.SetInt("HighScore", _Score);
+            PlayerPrefs.Save();
+        }
     }
 }

@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ExplanatoinScene1.unity
     guid: addfb0e81d91a1d4588aaa58e15910e0
   - enabled: 1
+    path: Assets/Scenes/ExplanatoinScene1to5.unity
+    guid: db562b8c06f1684438714f2602cee15a
+  - enabled: 1
     path: Assets/Scenes/ExplanationScene2.unity
     guid: 3b2a9e37404fc594ab8f8add97cc09c1
   - enabled: 1
