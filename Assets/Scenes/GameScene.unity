@@ -1731,7 +1731,7 @@ MonoBehaviour:
   AllBomSpawnCount: 6
   AllBomDestroyRange: 10
   AllFruitDestroyRange: 10
-  PlayTime: 61
+  PlayTime: 6
 --- !u!4 &842799197
 Transform:
   m_ObjectHideFlags: 0
@@ -2198,7 +2198,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1631551497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1631551497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2500,3 +2512,4 @@ MonoBehaviour:
   countdownText: {fileID: 2072741612}
   gameStartPanel: {fileID: 2084252196}
   countdownDuration: 3
+  audioSourceBGM: {fileID: 0}

@@ -8,7 +8,7 @@ public class SceneBotton : MonoBehaviour
 {
     public string SceneName;
 
-
+    public FadeoneScene FadetwoScene;
     //// ボタンがクリックされたときの処理
     //private void OnButtonClicked()
     //{
@@ -23,12 +23,14 @@ public class SceneBotton : MonoBehaviour
     //    yield return new WaitForSeconds(0.5f);
     //}
 
-        // Start is called before the first frame update
-        void Start()
+    
+    // Start is called before the first frame update
+    void Start()
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(SceneName);
+            //SceneManager.LoadScene(SceneName);
+            FadetwoScene.LoadScene(SceneName);
         });
     }
 

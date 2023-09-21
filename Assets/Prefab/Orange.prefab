@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Orange
   SelcetSprite: {fileID: 9031629658582775975}
+  selectionSound: {fileID: 8300000, guid: 04a04664b428a494f9c7367ddd1b2e61, type: 3}
 --- !u!1 &9031629658582775975
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI countdownText;
     public GameObject gameStartPanel;
     public float countdownDuration = 3.0f; // カウントダウンの秒数
+    public AudioSource audioSourceBGM; // BGMのAudioSourceをアタッチ
 
     private bool isCountdownFinished = false;
 
@@ -39,6 +40,10 @@ public class GameManager : MonoBehaviour
         countdownText.gameObject.SetActive(false); // カウントダウンテキストを非アクティブにする
         // カウントダウン終了後に自動的にゲームを開始
         StartGame();
+
+        // 3秒後にBGMを再生
+        yield return new WaitForSecondsRealtime(3.0f);
+        audioSourceBGM.Play();
     }
 
     private void StartGame()

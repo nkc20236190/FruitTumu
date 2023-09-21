@@ -164,6 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Lemon
   SelcetSprite: {fileID: 8720275814773767192}
+  audioSource: {fileID: 0}
+  selectionSound: {fileID: 8300000, guid: 04a04664b428a494f9c7367ddd1b2e61, type: 3}
 --- !u!1 &8720275814773767192
 GameObject:
   m_ObjectHideFlags: 0

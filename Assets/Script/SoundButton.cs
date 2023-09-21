@@ -1,27 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundButton : MonoBehaviour
 {
-    public AudioClip soundClip; // 効果音ファイル
-    private Button button;
-    private AudioSource audioSource;
+    public AudioSource audiosource; // AudioSourceコンポーネントへの参照
 
     private void Start()
     {
-        // ボタンとAudioSourceコンポーネントを取得
-        button = GetComponent<Button>();
-        audioSource = GetComponent<AudioSource>();
-
-        // ボタンのクリックイベントに関数を追加
-        button.onClick.AddListener(PlaySound);
+        // audiosourceを初期化（Inspectorパネルで設定されているはず）
+        audiosource = GetComponent<AudioSource>();
     }
 
-    private void PlaySound()
+    public void PushStageSelectButton(int stageNo)
     {
-        // 効果音を再生
-        audioSource.PlayOneShot(soundClip);
+        // audiosourceを使用して音を再生
+        audiosource.Play();
+        StartCoroutine("LoadGameScene", stageNo);
+    }
+
+    IEnumerator LoadGameScene(int stageNo)
+    {
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene("GameStage" + stageNo);
     }
 }

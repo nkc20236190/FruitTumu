@@ -7,13 +7,15 @@ using UnityEngine.UI;
 public class HowtoPlayButton : MonoBehaviour
 {
     public string SceneName;
+    public FadeoneScene FadeoneScene;
 
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(SceneName);
+            //SceneManager.LoadScene(SceneName);
+            FadeoneScene.LoadScene(SceneName);
         });
     }
 

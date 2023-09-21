@@ -248,3 +248,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Blue
   SelcetSprite: {fileID: 1081226567295678768}
+  selectionSound: {fileID: 8300000, guid: 04a04664b428a494f9c7367ddd1b2e61, type: 3}

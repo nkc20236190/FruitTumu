@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Starwberry
   SelcetSprite: {fileID: 5554383375260423091}
+  selectionSound: {fileID: 8300000, guid: 04a04664b428a494f9c7367ddd1b2e61, type: 3}
 --- !u!1 &5554383375260423091
 GameObject:
   m_ObjectHideFlags: 0
