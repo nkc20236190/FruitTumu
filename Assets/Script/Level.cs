@@ -6,6 +6,8 @@ using TMPro;
 
 public class Level : MonoBehaviour
 {
+    private List<Fruit> _LastSelectedFruits = new List<Fruit>();
+
     // <summary>全フルーツ</summary>
     private List<Fruit> _AllFruits = new List<Fruit>();
     /// <summary>選択中のフルーツ</summary>
@@ -79,6 +81,39 @@ public class Level : MonoBehaviour
     {
         LineRendererUpdate();
         TimerUpdate();
+
+        // 選択中のフルーツリストが変化したかどうかを確認
+        if (!ListsAreEqual(_LastSelectedFruits, _SelcetFruits))
+        {
+            // フルーツが選択されたらクリック音を再生
+            foreach (var fruit in _SelcetFruits)
+            {
+                fruit.PlayClickSound();
+            }
+        }
+
+        // 選択中のフルーツリストの前回の状態を更新
+        _LastSelectedFruits.Clear();
+        _LastSelectedFruits.AddRange(_SelcetFruits);
+    }
+
+    // 2つのリストが等しいかどうかを確認するユーティリティメソッド
+    private bool ListsAreEqual(List<Fruit> list1, List<Fruit> list2)
+    {
+        if (list1.Count != list2.Count)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < list1.Count; i++)
+        {
+            if (list1[i] != list2[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -152,13 +187,15 @@ public class Level : MonoBehaviour
         fruit.SetSelcet(true);
 
         _SelcetID = fruit.ID;
-    }
 
-    /// <summary>
-    /// フルーツEnterイベント
-    /// </summary>
-    /// <param name="fruit"></param>
-    public void FruitEnter(Fruit fruit)
+        // フルーツが選択されたらクリック音を再生
+        fruit.PlayClickSound();
+    }
+    
+        /// <summary>
+        /// フルーツEnterイベント
+        /// </summary>
+        public void FruitEnter(Fruit fruit)
     {
         if (!_IsPlaying) return;
         if (_SelcetID != fruit.ID) return;
@@ -259,6 +296,7 @@ public class Level : MonoBehaviour
     {
         foreach(var FruitItem in fruits)
         {
+            FruitItem.PlayDestroySound(); // フルーツが消されたときの音を再生
             Destroy(FruitItem.gameObject);
             _AllFruits.Remove(FruitItem);
         }
