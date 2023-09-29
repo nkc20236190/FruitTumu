@@ -7,6 +7,7 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
+    public int maxHighScore = 999999; // 最高スコアの最大値
 
     public static ScoreManager Instance { get; private set; }
 
@@ -19,6 +20,8 @@ public class ScoreManager : MonoBehaviour
     {
         // PlayerPrefsから最高スコアを読み取り、表示する
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        // 最高スコアが最大値を超えないように制限
+        highScore = Mathf.Clamp(highScore, 0, maxHighScore);
         highScoreText.text = "" + highScore.ToString();
     }
 
@@ -58,5 +61,17 @@ public class ScoreManager : MonoBehaviour
             return playerScores[playerName];
         }
         return 0; // プレイヤー名が見つからない場合、初期スコアとして0を返す
+    }
+
+    // 最高スコアを設定するメソッド
+    public void SetHighScore(int score)
+    {
+        // スコアが最大値を超えないように制限
+        score = Mathf.Clamp(score, 0, maxHighScore);
+
+        // PlayerPrefsに保存
+        PlayerPrefs.SetInt("HighScore", score);
+        PlayerPrefs.Save();
+        highScoreText.text = score.ToString();
     }
 }

@@ -1527,7 +1527,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9f6789e0dee2b384ba0cf01b7fe9740e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: aa6b7a9eaff4fd24fbaebb1dd096e7ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2312,6 +2312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highScoreText: {fileID: 2084267904}
+  maxHighScore: 999999
 --- !u!1 &2122231392
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,6 +28,10 @@ public class Fruit : MonoBehaviour
 
     private AudioSource audioSourceDestroy;
 
+    private float timer = 0f;
+    private bool canPlayClickSound = true;
+    private bool _GameEnded = false;
+
     private void Start()
     {
         // クリック時のオーディオソースを作成し設定
@@ -45,13 +49,17 @@ public class Fruit : MonoBehaviour
     /// </summary>
     private void OnMouseDown()
     {
-        Level.Instance.FruitDown(this);
-        PlayClickSound();
-        //// オーディオを再生
-        //if (clickSound != null)
-        //{
-        //    audioSourceClick.Play();
-        //}
+        if (!_GameEnded) // ゲームが終了していない場合にクリック音を再生
+        {
+            //Level.Instance.FruitDown(this);
+            //PlayClickSound();
+            // クリック音が再生できる条件を追加
+            if (canPlayClickSound)
+            {
+                Level.Instance.FruitDown(this);
+                PlayClickSound();
+            }
+        }
     }
 
     /// <summary>
@@ -83,10 +91,26 @@ public class Fruit : MonoBehaviour
     // Fruit.cs に新しいメソッドを追加
     public void PlayClickSound()
     {
-        // オーディオを再生
-        if (clickSound != null)
+        //// オーディオを再生
+        //if (clickSound != null)
+        //{
+        //    audioSourceClick.PlayOneShot(clickSound);
+        //}
+
+        // オーディオを再生する前に canPlayClickSound フラグを確認
+        if (canPlayClickSound && clickSound != null)
         {
             audioSourceClick.PlayOneShot(clickSound);
+        }
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= 59f)
+        {
+            canPlayClickSound = false;
         }
     }
 

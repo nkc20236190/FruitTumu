@@ -9,6 +9,7 @@ using Button = UnityEngine.UI.Button;
 public class TitleButton : MonoBehaviour
 {
     public string SceneName;
+    public FadeoneScene FadeoneScene;
     //private AudioSource audioSource; // ボタンのオーディオソース
 
 
@@ -20,7 +21,8 @@ public class TitleButton : MonoBehaviour
             //// 効果音を再生
             //audioSource.Play();
             // 画面遷移
-            SceneManager.LoadScene(SceneName);
+            //SceneManager.LoadScene(SceneName);
+            FadeoneScene.LoadScene(SceneName);
         });
     }
 

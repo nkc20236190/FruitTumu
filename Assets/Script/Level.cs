@@ -67,6 +67,10 @@ public class Level : MonoBehaviour
     /// <summary>プレイ時間[s]</summary>
     public float PlayTime = 60;
 
+    private bool _GameEnded = false;
+    private float _ElapsedTime = 0f;
+    private bool _CanPlayClickSound = true; // クリック音再生のフラグを追加
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +78,7 @@ public class Level : MonoBehaviour
         FruitSpawn(50);
         ScoreText.text = "0";
         _CurrentTime = PlayTime;
+        _ElapsedTime = 0f; // 経過時間を初期化
     }
 
     // Update is called once per frame
@@ -82,13 +87,24 @@ public class Level : MonoBehaviour
         LineRendererUpdate();
         TimerUpdate();
 
+        _ElapsedTime += Time.deltaTime; // 経過時間を更新
+
+        // 60秒を超えたらクリック音再生のフラグを無効化
+        if (_ElapsedTime >= 60f)
+        {
+            _CanPlayClickSound = false;
+        }
+
         // 選択中のフルーツリストが変化したかどうかを確認
         if (!ListsAreEqual(_LastSelectedFruits, _SelcetFruits))
         {
-            // フルーツが選択されたらクリック音を再生
-            foreach (var fruit in _SelcetFruits)
+            // フルーツが選択されたらクリック音を再生 (フラグが true の場合のみ再生)
+            if (_CanPlayClickSound)
             {
-                fruit.PlayClickSound();
+                foreach (var fruit in _SelcetFruits)
+                {
+                    fruit.PlayClickSound();
+                }
             }
         }
 
@@ -129,6 +145,7 @@ public class Level : MonoBehaviour
                 _CurrentTime = 0;
                 FruitUp();
                 _IsPlaying = false;
+                _GameEnded = true; // ゲーム終了フラグを設定
                 FinishDialod.SetActive(true);
             }
             TimerText.text = ((int) _CurrentTime).ToString();
@@ -188,8 +205,13 @@ public class Level : MonoBehaviour
 
         _SelcetID = fruit.ID;
 
-        // フルーツが選択されたらクリック音を再生
-        fruit.PlayClickSound();
+        //// フルーツが選択されたらクリック音を再生
+        //fruit.PlayClickSound();
+        // フルーツが選択されたらクリック音を再生 (フラグが true の場合のみ再生)
+        if (_CanPlayClickSound)
+        {
+            fruit.PlayClickSound();
+        }
     }
     
         /// <summary>
@@ -263,7 +285,6 @@ public class Level : MonoBehaviour
             if (Lenght < FruitConnectRange)
                 RemoveFruits.Add(FruitItem);
         }
-
         DestroyFruits(RemoveFruits);
         Destroy(bom.gameObject);
     }
