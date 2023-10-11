@@ -46,6 +46,19 @@ public class MainSoundScript : MonoBehaviour
         bgmAudioSource.Stop();
     }
 
+    // BGMÄŠJ
+    public void ResumeBGM()
+    {
+        bgmAudioSource.Play();
+        bgmAudioSource.UnPause();
+    }
+
+    // BGMˆê’â~
+    public void PauseBGM()
+    {
+        bgmAudioSource.Pause();
+    }
+
     // Update is called once per frame
     void Update()
     {

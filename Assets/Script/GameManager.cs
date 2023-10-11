@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,14 +16,19 @@ public class GameManager : MonoBehaviour
     public AudioClip newBGM;
 
     private bool isCountdownFinished = false;
+    private bool isBGMPlaying = false;
 
     private void Start()
     {
         Time.timeScale = 0f; // ƒQ[ƒ€‚ğ’â~
-        // TitleScene‚ÅÄ¶‚³‚ê‚Ä‚¢‚éBGM‚ğ’â~
-        if (MainSoundScript.instance != null)
+
+        // TitleScene‚©‚çGameScene‚É‘JˆÚ‚µ‚½‚Æ‚«‚¾‚¯BGM‚ğ’â~
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            MainSoundScript.instance.StopBGM();
+            if (MainSoundScript.instance != null)
+            {
+                MainSoundScript.instance.StopBGM();
+            }
         }
 
         StartCoroutine(StartCountdown());
@@ -47,9 +53,10 @@ public class GameManager : MonoBehaviour
                 countdownText.text = "GO!";
 
                 // "GO!"‚ÌuŠÔ‚ÉBGM‚ğÄ¶
-                if (bgmAudioSource != null)
+                if (bgmAudioSource != null && !isBGMPlaying)
                 {
                     bgmAudioSource.Play();
+                    isBGMPlaying = true;
                 }
             }
 
@@ -71,5 +78,17 @@ public class GameManager : MonoBehaviour
     {
         // ƒQ[ƒ€‚ÌŠJnˆ—‚ğ‚±‚±‚É’Ç‰Á
         Time.timeScale = 1f; // ƒQ[ƒ€‚ğÄ¶
+    }
+
+    private void OnDisable()
+    {
+        // GameScene‚©‚çTitleScene‚É–ß‚éÛ‚ÉBGM‚ğÄ¶
+        if (SceneManager.GetActiveScene().name == "TitleScene")
+        {
+            if (MainSoundScript.instance != null)
+            {
+                MainSoundScript.instance.ResumeBGM();
+            }
+        }
     }
 }

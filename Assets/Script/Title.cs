@@ -8,6 +8,4 @@ public class Title : MonoBehaviour
     {
         SoundManager.instance.PlayBGM(SoundManager.BGM.Title);
     }
-
-
 }
